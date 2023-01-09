@@ -22,6 +22,15 @@ COLOR_RED="\033[31m"
 COLOR_GREEN="\033[32m"
 COLOR_CYAN="\033[36m"
 COLOR_RESET="\033[0m"
+COLOR_RED="\033[31m"
+COLOR_GREEN="\033[32m"
+COLOR_CYAN="\033[36m"
+COLOR_RESET="\033[0m"
+COLOR_RED="\033[31m"
+COLOR_GREEN="\033[32m"
+COLOR_CYAN="\033[36m"
+COLOR_RESET="\033[0m"
+
 
 STRING_1="LINK RECONNECTED:                               "
 STRING_2="LINK DOWN:                                      "
@@ -89,7 +98,7 @@ PRINT_LOGSTART() {
 
 PRINT_DISCONNECTED() {
   echo "$STRING_2 $(date "+%a %d %b %Y %H:%M:%S %Z")" >> $VAR_LOGFILE
-  echo -e $COLOR_RED"$STRING_2 $(date "+%a %d %b %Y %H:%M:%S %Z")"$COLOR_RESET
+  echo -e $COLOR_RED"$STRING_2 $(date "+%a %d %b %Y %H:%M:%S %Z")
 }
 
 DISCONNECTED_EVENT_HOOK() {
@@ -105,13 +114,7 @@ PRINT_RECONNECTED() {
   echo -e $COLOR_GREEN"$STRING_1 $(date "+%a %d %b %Y %H:%M:%S %Z")"$COLOR_RESET
 }
 
-RECONNECTED_EVENT_HOOK() {
-  if [[ $VAR_ACT_ON_RECONNECT = true ]]; then :
-    COMMAND="$VAR_RECONNECT_SCRIPT $1 &"
-    echo -e $COLOR_CYAN"$STRING_1 EXEC $COMMAND"$COLOR_RESET
-    eval "$COMMAND"
-  fi
-}
+
 
 CHECK_EVENT_HOOK() {
   if [[ $VAR_ACT_ON_CHECK = true ]]; then :
@@ -153,6 +156,13 @@ START_WEBSERVER() {
       (cd $VAR_SCRIPTLOC/log; $VAR_PYTHON_EXEC -m http.server $1 &) &> /dev/null
     ;;
   esac
+}
+
+CHECK_EVENT_HOOK() {
+  if [[ $VAR_ACT_ON_CHECK = true ]]; then :
+    COMMAND="$VAR_CHECK_SCRIPT $1 &"
+    eval "$COMMAND"
+  fi
 }
 
 SETUP_WEBSERVER() {
